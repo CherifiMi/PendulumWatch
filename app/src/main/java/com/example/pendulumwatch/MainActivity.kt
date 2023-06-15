@@ -31,7 +31,7 @@ class MainActivity : ComponentActivity() {
 }
 
 @Composable
-fun App(name: String) {
+fun App() {
 
 }
 
