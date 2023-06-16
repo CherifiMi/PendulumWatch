@@ -19,8 +19,10 @@ import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.PathEffect
 import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.input.pointer.PointerEventType
+import androidx.compose.ui.input.pointer.consumeAllChanges
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.layout.onSizeChanged
 import androidx.compose.ui.tooling.preview.Preview
@@ -39,8 +41,6 @@ class MainActivity : ComponentActivity() {
         }
     }
 }
-
-
 
 @Composable
 fun App() {
@@ -72,7 +72,7 @@ fun App() {
         mutableStateOf(0.997f)
     }
     var r by remember {
-        mutableStateOf(0f)
+        mutableStateOf(400f)
     }
 
     val update by rememberInfiniteTransition().animateFloat(
@@ -84,7 +84,7 @@ fun App() {
         )
     )
 
-    LaunchedEffect(update, Dispatchers.Main){
+    LaunchedEffect(update) {
         aAcceleration = ((-1 * gravity / r) * sin(angle))
         aVelocity += aAcceleration
         angle += aVelocity
@@ -94,11 +94,11 @@ fun App() {
         location = Offset(r * sin(angle), r * cos(angle))
         location = location.plus(origen)
 
-        if (isStuck && nearBall(pressPos, location)) {
+        if (isStuck) {
+            aVelocity = 0f
             var c2 = origen.minus(Offset(pressPos.x, pressPos.y))
             angle = (atan2(-1 * c2.y, c2.x) - (90f * PI / 180f)).toFloat()
         }
-
     }
 
     Canvas(
@@ -108,26 +108,18 @@ fun App() {
             .aspectRatio(1f)
             .background(Color.Black)
             .pointerInput(Unit) {
-                detectDragGestures { change, _ ->
-                    pressPos = change.position
-                }
+                detectDragGestures(
+                    onDragStart = {
+                        isStuck = true && nearBall(it, location)
+                    },
+                    onDragEnd = { isStuck = false },
+                    onDrag = { change, dragAmount ->
+                        change.consumeAllChanges()
+                        pressPos = change.position
+                    })
             }
-            .pointerInput(Unit){
-                detectTapGestures(
-                    onPress = {
-                        try {
-                            isStuck = true
-                            awaitRelease()
-                        } finally {
-                            isStuck = false
-                        }
-                    }
-                )
-            }
-
     ) {
         origen = Offset(size.width / 2, 0f)
-        r = size.height * 0.7f
 
         drawRect(Color.White, style = Stroke(width = 2.dp.toPx()))
         drawLine(
@@ -137,6 +129,16 @@ fun App() {
             strokeWidth = 2.dp.toPx()
         )
         drawCircle(if (isStuck) Color.Red else Color.White, radius = 40f, center = location)
+        drawArc(
+            color = Color.Green,
+            startAngle = 0f,
+            sweepAngle = 180f,
+            useCenter = ,
+            style = Stroke(
+                width = 2.dp.toPx(),
+                pathEffect = PathEffect.dashPathEffect(floatArrayOf(10f, 10f), 0f)
+            )
+        )
     }
 }
 
@@ -144,5 +146,5 @@ fun nearBall(mouse: Offset, location: Offset): Boolean {
     var x = abs(mouse.x - location.x)
     var y = abs(mouse.y - location.y)
 
-    return x < 25 && y < 25
+    return x < 50 && y < 50
 }
