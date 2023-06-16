@@ -2,6 +2,7 @@ package com.example.pendulumwatch
 
 import android.os.Bundle
 import android.util.Log
+import android.view.MotionEvent
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.animation.core.*
@@ -41,7 +42,6 @@ class MainActivity : ComponentActivity() {
 
 
 
-@OptIn(ExperimentalComposeUiApi::class)
 @Composable
 fun App() {
     var isStuck by remember {
@@ -94,10 +94,11 @@ fun App() {
         location = Offset(r * sin(angle), r * cos(angle))
         location = location.plus(origen)
 
-        if (isStuck) {
+        if (isStuck && nearBall(pressPos, location)) {
             var c2 = origen.minus(Offset(pressPos.x, pressPos.y))
             angle = (atan2(-1 * c2.y, c2.x) - (90f * PI / 180f)).toFloat()
         }
+
     }
 
     Canvas(
@@ -110,10 +111,12 @@ fun App() {
                 detectDragGestures { change, _ ->
                     pressPos = change.position
                 }
+            }
+            .pointerInput(Unit){
                 detectTapGestures(
                     onPress = {
                         try {
-                            isStuck = true && nearBall(pressPos, location)
+                            isStuck = true
                             awaitRelease()
                         } finally {
                             isStuck = false
@@ -121,6 +124,7 @@ fun App() {
                     }
                 )
             }
+
     ) {
         origen = Offset(size.width / 2, 0f)
         r = size.height * 0.7f
