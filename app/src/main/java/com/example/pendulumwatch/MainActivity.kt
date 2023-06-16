@@ -18,6 +18,7 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.PathEffect
 import androidx.compose.ui.graphics.drawscope.Stroke
@@ -133,7 +134,9 @@ fun App() {
             color = Color.Green,
             startAngle = 0f,
             sweepAngle = 180f,
-            useCenter = ,
+            useCenter = false,
+            size = Size(r*2+20f,r*2+20f),
+            topLeft = Offset(0f,-r),
             style = Stroke(
                 width = 2.dp.toPx(),
                 pathEffect = PathEffect.dashPathEffect(floatArrayOf(10f, 10f), 0f)
@@ -147,4 +150,10 @@ fun nearBall(mouse: Offset, location: Offset): Boolean {
     var y = abs(mouse.y - location.y)
 
     return x < 50 && y < 50
+}
+
+@Preview
+@Composable
+fun appPre() {
+    App()
 }
