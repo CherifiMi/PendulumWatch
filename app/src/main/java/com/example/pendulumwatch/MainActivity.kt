@@ -73,7 +73,7 @@ fun App() {
         mutableStateOf(0.997f)
     }
     var r by remember {
-        mutableStateOf(400f)
+        mutableStateOf(900f)
     }
 
     val update by rememberInfiniteTransition().animateFloat(
@@ -120,7 +120,8 @@ fun App() {
                     })
             }
     ) {
-        origen = Offset(size.width / 2, 0f)
+        //origen = Offset(size.width / 2, 0f)
+        origen = Offset(40f, 0f)
 
         drawRect(Color.White, style = Stroke(width = 2.dp.toPx()))
         drawLine(
@@ -129,14 +130,14 @@ fun App() {
             end = location,
             strokeWidth = 2.dp.toPx()
         )
-        drawCircle(if (isStuck) Color.Red else Color.White, radius = 40f, center = location)
+        drawCircle(if (isStuck) Color.Red else Color.White, radius = r/10 - 20, center = location)
         drawArc(
             color = Color.Green,
             startAngle = 0f,
             sweepAngle = 180f,
             useCenter = false,
-            size = Size(r*2+20f,r*2+20f),
-            topLeft = Offset(0f,-r),
+            size = Size(r*2,r*2),
+            topLeft = Offset(origen.x-r,-r),
             style = Stroke(
                 width = 2.dp.toPx(),
                 pathEffect = PathEffect.dashPathEffect(floatArrayOf(10f, 10f), 0f)
@@ -149,7 +150,7 @@ fun nearBall(mouse: Offset, location: Offset): Boolean {
     var x = abs(mouse.x - location.x)
     var y = abs(mouse.y - location.y)
 
-    return x < 50 && y < 50
+    return x < 80 && y < 80
 }
 
 @Preview
