@@ -10,10 +10,7 @@ import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.background
 import androidx.compose.foundation.gestures.detectDragGestures
 import androidx.compose.foundation.gestures.detectTapGestures
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.aspectRatio
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.progressSemantics
 import androidx.compose.runtime.*
 import androidx.compose.ui.ExperimentalComposeUiApi
@@ -43,16 +40,19 @@ class MainActivity : ComponentActivity() {
                         .fillMaxSize()
                         .background(Color.Black)
                 ) {
-
+                    Pend(
+                        Modifier
+                            .fillMaxWidth()
+                            .aspectRatio(3f / 4f)
+                            .padding(horizontal = 32.dp))
                 }
-                App()
             }
         }
     }
 }
 
 @Composable
-fun App() {
+fun Pend(modifier: Modifier = Modifier) {
     var isStuck by remember {
         mutableStateOf(false)
     }
@@ -81,7 +81,7 @@ fun App() {
         mutableStateOf(0.997f)
     }
     var r by remember {
-        mutableStateOf(600f)
+        mutableStateOf(800f)
     }
 
     val update by rememberInfiniteTransition().animateFloat(
@@ -92,6 +92,7 @@ fun App() {
             repeatMode = RepeatMode.Reverse
         )
     )
+
 
     LaunchedEffect(update) {
         aAcceleration = ((-1 * gravity / r) * sin(angle))
@@ -111,11 +112,7 @@ fun App() {
     }
 
     Canvas(
-        Modifier
-            .fillMaxSize()
-            .padding(8.dp)
-            .aspectRatio(1f)
-            .background(Color.Black)
+        modifier
             .pointerInput(Unit) {
                 detectDragGestures(
                     onDragStart = {
@@ -128,7 +125,6 @@ fun App() {
                     })
             }
     ) {
-        //origen = Offset(size.width / 2, 0f)
         origen = Offset(40f, 0f)
 
         drawRect(Color.White, style = Stroke(width = 2.dp.toPx()))
@@ -138,14 +134,14 @@ fun App() {
             end = location,
             strokeWidth = 2.dp.toPx()
         )
-        drawCircle(if (isStuck) Color.Red else Color.White, radius = r/10 - 20, center = location)
+        drawCircle(if (isStuck) Color.Red else Color.White, radius = r / 10 - 20, center = location)
         drawArc(
             color = Color.Green,
             startAngle = 0f,
             sweepAngle = 180f,
             useCenter = false,
-            size = Size(r*2,r*2),
-            topLeft = Offset(origen.x-r,-r),
+            size = Size(r * 2, r * 2),
+            topLeft = Offset(origen.x - r, -r),
             style = Stroke(
                 width = 2.dp.toPx(),
                 pathEffect = PathEffect.dashPathEffect(floatArrayOf(10f, 10f), 0f)
@@ -159,10 +155,4 @@ fun nearBall(mouse: Offset, location: Offset): Boolean {
     var y = abs(mouse.y - location.y)
 
     return x < 80 && y < 80
-}
-
-@Preview
-@Composable
-fun appPre() {
-    App()
 }
