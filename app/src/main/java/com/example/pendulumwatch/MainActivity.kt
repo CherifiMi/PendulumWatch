@@ -19,6 +19,7 @@ import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.PathEffect
+import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.input.pointer.PointerEventType
 import androidx.compose.ui.input.pointer.consumeAllChanges
@@ -26,7 +27,10 @@ import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.layout.onSizeChanged
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.example.pendulumwatch.ui.theme.Blu
+import com.example.pendulumwatch.ui.theme.Grn
 import com.example.pendulumwatch.ui.theme.PendulumWatchTheme
+import com.example.pendulumwatch.ui.theme.Red
 import kotlinx.coroutines.Dispatchers
 import kotlin.math.*
 
@@ -131,7 +135,7 @@ fun Pend(modifier: Modifier = Modifier) {
         drawRect(Color.White, style = Stroke(2.dp.toPx()))
 
         drawArc(
-            color = Color.Green,
+            color = Blu,
             startAngle = 50f,
             sweepAngle = 40f,
             useCenter = false,
@@ -139,17 +143,18 @@ fun Pend(modifier: Modifier = Modifier) {
             topLeft = Offset(origen.x - r, -r),
             style = Stroke(
                 width = 4.dp.toPx(),
-                pathEffect = PathEffect.dashPathEffect(floatArrayOf(10f, 10f), 0f)
+                pathEffect = PathEffect.dashPathEffect(floatArrayOf(20f, 20f), 0f),
+                cap = StrokeCap.Round
             )
         )
 
         drawLine(
-            Color.White,
+            Grn,
             start = origen,
             end = location,
             strokeWidth = 2.dp.toPx()
         )
-        drawCircle(if (isStuck) Color.Red else Color.White, radius = 5*8f, center = location)
+        drawCircle(if (isStuck) Red else Grn, radius = 5*8f, center = location)
     }
 }
 
