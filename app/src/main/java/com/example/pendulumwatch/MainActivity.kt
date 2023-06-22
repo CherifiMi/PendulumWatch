@@ -10,6 +10,7 @@ import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.background
 import androidx.compose.foundation.gestures.detectDragGestures
 import androidx.compose.foundation.gestures.detectTapGestures
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
@@ -37,6 +38,13 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             PendulumWatchTheme {
+                Column(
+                    Modifier
+                        .fillMaxSize()
+                        .background(Color.Black)
+                ) {
+
+                }
                 App()
             }
         }
@@ -73,7 +81,7 @@ fun App() {
         mutableStateOf(0.997f)
     }
     var r by remember {
-        mutableStateOf(900f)
+        mutableStateOf(600f)
     }
 
     val update by rememberInfiniteTransition().animateFloat(
