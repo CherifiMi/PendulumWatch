@@ -44,7 +44,8 @@ class MainActivity : ComponentActivity() {
                         Modifier
                             .fillMaxWidth()
                             .aspectRatio(3f / 4f)
-                            .padding(horizontal = 32.dp))
+                            .padding(horizontal = 48.dp)
+                    )
                 }
             }
         }
@@ -127,26 +128,28 @@ fun Pend(modifier: Modifier = Modifier) {
     ) {
         origen = Offset(40f, 0f)
 
-        drawRect(Color.White, style = Stroke(width = 2.dp.toPx()))
+        drawRect(Color.White, style = Stroke(2.dp.toPx()))
+
+        drawArc(
+            color = Color.Green,
+            startAngle = 50f,
+            sweepAngle = 40f,
+            useCenter = false,
+            size = Size(r * 2, r * 2),
+            topLeft = Offset(origen.x - r, -r),
+            style = Stroke(
+                width = 4.dp.toPx(),
+                pathEffect = PathEffect.dashPathEffect(floatArrayOf(10f, 10f), 0f)
+            )
+        )
+
         drawLine(
             Color.White,
             start = origen,
             end = location,
             strokeWidth = 2.dp.toPx()
         )
-        drawCircle(if (isStuck) Color.Red else Color.White, radius = r / 10 - 20, center = location)
-        drawArc(
-            color = Color.Green,
-            startAngle = 0f,
-            sweepAngle = 180f,
-            useCenter = false,
-            size = Size(r * 2, r * 2),
-            topLeft = Offset(origen.x - r, -r),
-            style = Stroke(
-                width = 2.dp.toPx(),
-                pathEffect = PathEffect.dashPathEffect(floatArrayOf(10f, 10f), 0f)
-            )
-        )
+        drawCircle(if (isStuck) Color.Red else Color.White, radius = 5*8f, center = location)
     }
 }
 
