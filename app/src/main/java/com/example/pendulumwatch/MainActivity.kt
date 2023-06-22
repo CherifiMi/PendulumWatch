@@ -41,20 +41,33 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             PendulumWatchTheme {
-                Column(
-                    Modifier
-                        .fillMaxSize()
-                        .background(Color.Black)
-                ) {
-                    Pend(
-                        Modifier
-                            .fillMaxWidth()
-                            .aspectRatio(3f / 4f)
-                            .padding(horizontal = 48.dp)
-                    )
-                }
+                App()
+
             }
         }
+    }
+}
+
+@Composable
+fun App() {
+    Box(
+        Modifier
+            .fillMaxSize()
+            .background(Color.Black)
+    ) {
+
+    }
+    Column(
+        Modifier
+            .fillMaxSize()
+            .background(Color.Black)
+    ) {
+        Pend(
+            Modifier
+                .fillMaxWidth()
+                .aspectRatio(3f / 4f)
+                .padding(horizontal = 48.dp)
+        )
     }
 }
 
@@ -164,7 +177,7 @@ fun Pend(modifier: Modifier = Modifier) {
             }
     ) {
         origen = Offset(40f, 0f)
-        translate(if (isMoving) 0f else 220f, if (isMoving) 0f else -150f) {
+        translate(if (isMoving) 0f else 220f, if (isMoving) 0f else -100f) {
 
 
             if (isMoving) {
