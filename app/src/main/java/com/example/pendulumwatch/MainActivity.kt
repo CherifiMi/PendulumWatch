@@ -5,14 +5,20 @@ import android.util.Log
 import android.view.MotionEvent
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.EnterTransition
 import androidx.compose.animation.core.*
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.background
 import androidx.compose.foundation.gestures.detectDragGestures
 import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.progressSemantics
+import androidx.compose.material.Text
 import androidx.compose.runtime.*
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.scale
@@ -48,20 +54,34 @@ class MainActivity : ComponentActivity() {
     }
 }
 
+val Show = mutableStateOf(false)
+
 @Composable
 fun App() {
     Box(
         Modifier
             .fillMaxSize()
-            .background(Color.Black)
+            .background(Color.Black),
+        contentAlignment = Alignment.TopCenter
     ) {
+        AnimatedVisibility(
+            visible = Show.value,
+            enter = fadeIn(
+                initialAlpha = 0.4f
+            ),
+            exit = fadeOut(
+                animationSpec = tween(durationMillis = 250)
+            )
+        ) {
+            Column(
+                Modifier
+                    .fillMaxSize()
+                    .background(Color.Black)
+            ) {
+                Text(text = "hillo", color = Red)
+            }
+        }
 
-    }
-    Column(
-        Modifier
-            .fillMaxSize()
-            .background(Color.Black)
-    ) {
         Pend(
             Modifier
                 .fillMaxWidth()
@@ -69,10 +89,16 @@ fun App() {
                 .padding(horizontal = 48.dp)
         )
     }
+
 }
 
 @Composable
 fun Pend(modifier: Modifier = Modifier) {
+
+    var frame by remember {
+        mutableStateOf(0)
+    }
+
 
     var spining by remember {
         mutableStateOf(90f)
@@ -116,17 +142,9 @@ fun Pend(modifier: Modifier = Modifier) {
         mutableStateOf(false)
     }
 
-    val update by rememberInfiniteTransition().animateFloat(
-        initialValue = 0f,
-        targetValue = 600f,
-        animationSpec = infiniteRepeatable(
-            animation = tween(durationMillis = 400, easing = FastOutLinearInEasing),
-            repeatMode = RepeatMode.Reverse
-        )
-    )
 
 
-    LaunchedEffect(update) {
+    LaunchedEffect(frame) {
         aAcceleration = ((-1 * gravity / r) * sin(angle))
         aVelocity += aAcceleration
         angle += aVelocity
@@ -155,9 +173,14 @@ fun Pend(modifier: Modifier = Modifier) {
 
         if (!isMoving) {
             scaling = 0.83f
+            Show.value = true
         } else {
             scaling = 1f
         }
+
+        Log.d("MyData", "angle:$angle  acc:$aAcceleration  vel:$aVelocity")
+
+        frame++
     }
 
 
