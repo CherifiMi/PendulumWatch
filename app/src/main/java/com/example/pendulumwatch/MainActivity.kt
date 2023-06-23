@@ -38,7 +38,6 @@ class MainActivity : ComponentActivity() {
         setContent {
             PendulumWatchTheme {
                 App()
-
             }
         }
     }
@@ -61,7 +60,7 @@ fun App() {
             visible = Show.value,
             enter = fadeIn(
                 initialAlpha = 0.1f,
-                animationSpec = tween(durationMillis = 2000)
+                animationSpec = tween(durationMillis = 500)
             ),
             exit = fadeOut(
                 animationSpec = tween(durationMillis = 200)
@@ -130,14 +129,15 @@ fun Track(modifier: Modifier = Modifier, data: MutableList<Float>) {
 
     Canvas(modifier.aspectRatio(1f)) {
         drawArc(
-            color = Color.Red,
+            color = Grn,
+            alpha = 0.4f,
             startAngle = 120f,
             sweepAngle = 300f,
             useCenter = false,
             style = Stroke(width = 20.dp.toPx(), cap = StrokeCap.Round)
         )
         drawArc(
-            color = Color.Blue,
+            color = Grn,
             startAngle = 120f,
             sweepAngle = 300f * (value / max),
             useCenter = false,
