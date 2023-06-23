@@ -125,7 +125,7 @@ fun App() {
                             .width(100.dp),
                         horizontalAlignment = Alignment.CenterHorizontally
                     ) {
-                        Ecc(modifier = Modifier.offset(0.dp, (-200).dp).alpha(if (level.value>0) 1f else 0f),lev = if (level.value>0) level.value else 0)
+                        Ecc(modifier = Modifier.offset(0.dp, (-190).dp).alpha(if (level.value>=0) 1f else 0f),lev = if (level.value>0) level.value else 0)
                         Ecc(modifier = Modifier.rotate(180f ).alpha(if (level.value<0) 1f else 0f), lev = if (level.value<0) level.value else 0)
                     }
                 }
@@ -399,7 +399,7 @@ fun Pend(modifier: Modifier = Modifier) {
         mutableStateOf(Offset(0f, 0f))
     }
     var dumping by remember {
-        mutableStateOf(0.9987f)
+        mutableStateOf(0.9997f)
     }
     var r by remember {
         mutableStateOf(800f)
