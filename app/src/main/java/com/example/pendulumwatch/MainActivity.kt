@@ -150,7 +150,7 @@ fun Graph(data: MutableList<Float>) {
 
         graphData.add(data.last()*10f)
 
-        if (graphData.size > 1000) {
+        if (graphData.size > 500) {
             graphData.removeAt(0)
         }
 
@@ -171,7 +171,7 @@ fun Graph(data: MutableList<Float>) {
 fun DrawScope.drawGraph(graphData: ArrayList<Float>) {
     val path = generatePath(graphData, size)
     val fillPath = Path()
-    drawPath(path, Red, style = Stroke(4.dp.toPx()))
+    drawPath(path, Red, style = Stroke(8.dp.toPx()))
 
     fillPath.addPath(path)
     fillPath.lineTo(size.width, size.height)
@@ -182,7 +182,8 @@ fun generatePath(graphData: ArrayList<Float>, size: Size): Path {
     val path = Path()
     val highest = graphData.max() - graphData.min()
 
-    path.moveTo(0f, size.height/2f)
+    //path.moveTo(0f, size.height/2f)
+    path.moveTo(0f, size.height/2 - (size.height/2 * ((graphData[0] * 100f / highest) / 100)))
 
     graphData.forEachIndexed { i, d ->
         val x = (i + 1f) * (size.width / graphData.size)
