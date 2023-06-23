@@ -10,7 +10,6 @@ import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.background
-import androidx.compose.foundation.gestures.ModifierLocalScrollableContainerProvider.value
 import androidx.compose.foundation.gestures.detectDragGestures
 import androidx.compose.foundation.layout.*
 import androidx.compose.runtime.*
@@ -61,10 +60,11 @@ fun App() {
         AnimatedVisibility(
             visible = Show.value,
             enter = fadeIn(
-                initialAlpha = 0.4f
+                initialAlpha = 0.1f,
+                animationSpec = tween(durationMillis = 2000)
             ),
             exit = fadeOut(
-                animationSpec = tween(durationMillis = 250)
+                animationSpec = tween(durationMillis = 200)
             )
         ) {
             Column(
@@ -82,9 +82,14 @@ fun App() {
                         modifier = Modifier
                             .padding(8.dp)
                             .fillMaxHeight(),
-                        data = GAmg
+                        data = GAcc
                     )
-
+                    Track(
+                        modifier = Modifier
+                            .padding(8.dp)
+                            .fillMaxHeight(),
+                        data = GVel
+                    )
                 }
 
             }
@@ -104,8 +109,24 @@ fun App() {
 @Composable
 fun Track(modifier: Modifier = Modifier, data: MutableList<Float>) {
 
-    var max = 0f
-    var value = 0f
+    var frame by remember {
+        mutableStateOf(0)
+    }
+
+    var max by remember {
+        mutableStateOf(0f)
+    }
+    var value by remember {
+        mutableStateOf(0f)
+    }
+
+
+    LaunchedEffect(frame){
+        max = data.max()-data.min()
+        value = data.last().absoluteValue
+        frame++
+    }
+
 
     Canvas(modifier.aspectRatio(1f)) {
         drawArc(
