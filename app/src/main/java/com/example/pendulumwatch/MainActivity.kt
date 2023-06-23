@@ -139,7 +139,7 @@ fun App() {
 fun Graph(data: MutableList<Float>) {
 
     var graphData by remember {
-        mutableStateOf(arrayListOf(0f))
+        mutableStateOf(arrayListOf(-100f))
     }
 
     var frame by remember {
@@ -171,7 +171,7 @@ fun Graph(data: MutableList<Float>) {
 fun DrawScope.drawGraph(graphData: ArrayList<Float>) {
     val path = generatePath(graphData, size)
     val fillPath = Path()
-    drawPath(path, Red, style = Stroke(8.dp.toPx()))
+    drawPath(path, Red, style = Stroke(6.dp.toPx()))
 
     fillPath.addPath(path)
     fillPath.lineTo(size.width, size.height)
@@ -182,7 +182,6 @@ fun generatePath(graphData: ArrayList<Float>, size: Size): Path {
     val path = Path()
     val highest = graphData.max() - graphData.min()
 
-    //path.moveTo(0f, size.height/2f)
     path.moveTo(0f, size.height/2 - (size.height/2 * ((graphData[0] * 100f / highest) / 100)))
 
     graphData.forEachIndexed { i, d ->
@@ -293,7 +292,7 @@ fun Pend(modifier: Modifier = Modifier) {
         mutableStateOf(Offset(0f, 0f))
     }
     var dumping by remember {
-        mutableStateOf(0.997f)
+        mutableStateOf(0.9987f)
     }
     var r by remember {
         mutableStateOf(800f)
