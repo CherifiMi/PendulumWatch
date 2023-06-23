@@ -33,6 +33,9 @@ import com.example.pendulumwatch.ui.theme.Blu
 import com.example.pendulumwatch.ui.theme.Grn
 import com.example.pendulumwatch.ui.theme.PendulumWatchTheme
 import com.example.pendulumwatch.ui.theme.Red
+import kotlinx.coroutines.delay
+import java.util.*
+import kotlin.collections.ArrayList
 import kotlin.math.*
 
 class MainActivity : ComponentActivity() {
@@ -89,6 +92,7 @@ fun App() {
                         .aspectRatio(2 / 1f)
                         .background(Red)
                 ) {
+                    Timer()
                 }
                 Row(
                     Modifier
@@ -136,6 +140,24 @@ fun App() {
 }
 
 @Composable
+fun Timer() {
+    var timer by remember { mutableStateOf(60) }
+    LaunchedEffect(key1 = timer) {
+        if (timer > 0) {
+            delay(1_000)
+            timer -= 1
+        }
+    }
+
+    Text(
+        text = timer.toString(),
+        fontSize = 80.sp,
+        fontWeight = FontWeight(300),
+        color = Grn
+    )
+}
+
+@Composable
 fun Graph(data: MutableList<Float>) {
 
     var graphData by remember {
@@ -148,7 +170,7 @@ fun Graph(data: MutableList<Float>) {
 
     LaunchedEffect(frame) {
 
-        graphData.add(data.last()*10f)
+        graphData.add(data.last() * 10f)
 
         if (graphData.size > 500) {
             graphData.removeAt(0)
@@ -182,11 +204,11 @@ fun generatePath(graphData: ArrayList<Float>, size: Size): Path {
     val path = Path()
     val highest = graphData.max() - graphData.min()
 
-    path.moveTo(0f, size.height/2 - (size.height/2 * ((graphData[0] * 100f / highest) / 100)))
+    path.moveTo(0f, size.height / 2 - (size.height / 2 * ((graphData[0] * 100f / highest) / 100)))
 
     graphData.forEachIndexed { i, d ->
         val x = (i + 1f) * (size.width / graphData.size)
-        val y = size.height/2 - (size.height/2 * ((d * 100f / highest) / 100))
+        val y = size.height / 2 - (size.height / 2 * ((d * 100f / highest) / 100))
 
         path.lineTo(x, y)
     }
