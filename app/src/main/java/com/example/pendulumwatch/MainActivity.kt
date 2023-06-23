@@ -1,6 +1,7 @@
 package com.example.pendulumwatch
 
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.animation.AnimatedVisibility
@@ -16,6 +17,7 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.drawBehind
+import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.draw.scale
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Size
@@ -25,6 +27,7 @@ import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.graphics.drawscope.translate
 import androidx.compose.ui.input.pointer.consumeAllChanges
 import androidx.compose.ui.input.pointer.pointerInput
+import androidx.compose.ui.modifier.modifierLocalConsumer
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -51,6 +54,8 @@ val Show = mutableStateOf(false)
 val GAng = mutableListOf<Float>()
 val GVel = mutableListOf<Float>()
 val GAcc = mutableListOf<Float>()
+val level = mutableStateOf(0)
+
 
 @Composable
 fun App() {
@@ -111,14 +116,16 @@ fun App() {
                         data = GVel,
                         txt = "ν"
                     )
-                    Box(
+                    Column(
                         Modifier
                             .padding(8.dp)
                             .fillMaxHeight()
-                            .width(100.dp)
-                            .background(Red)
+                            .offset(0.dp, 200.dp)
+                            .width(100.dp),
+                        horizontalAlignment = Alignment.CenterHorizontally
                     ) {
-
+                        Ecc(modifier = Modifier.offset(0.dp, (-200).dp),lev = if (level.value>0) level.value else 0)
+                        Ecc(modifier = Modifier.rotate(180f ), lev = if (level.value<0) level.value else 0)
                     }
                 }
 
@@ -134,6 +141,62 @@ fun App() {
     }
 
 }
+
+
+@Composable
+fun Ecc(modifier: Modifier = Modifier, lev: Int) {
+    var s by remember { mutableStateOf(0) }
+    var l by remember { mutableStateOf(0) }
+    LaunchedEffect(s) {
+        l = level.value.absoluteValue
+        s++
+    }
+    Canvas(modifier) {
+        drawCircle(
+            Red,
+            alpha = 1f,
+            radius = 30f,
+            center = Offset(size.width / 2f, 30f * (5 - l + 1)),
+            style = Stroke(width = 7.dp.toPx())
+        )
+        drawCircle(
+            Red,
+            alpha = if (l >= 4) 1f / 2 else 0f,
+            radius = 30f,
+            center = Offset(size.width / 2f, 30f * 2),
+            style = Stroke(width = 7.dp.toPx())
+        )
+        drawCircle(
+            Red,
+            alpha = if (l >= 3) 1f / 3 else 0f,
+            radius = 30f,
+            center = Offset(size.width / 2f, 30f * 3),
+            style = Stroke(width = 7.dp.toPx())
+        )
+        drawCircle(
+            Red,
+            alpha = if (l >= 2) 1f / 4 else 0f,
+            radius = 30f,
+            center = Offset(size.width / 2f, 30f * 4),
+            style = Stroke(width = 7.dp.toPx())
+        )
+        drawCircle(
+            Red,
+            alpha = if (l >= 1) 1f / 5 else 0f,
+            radius = 30f,
+            center = Offset(size.width / 2f, 30f * 5),
+            style = Stroke(width = 7.dp.toPx())
+        )
+        drawCircle(
+            Red,
+            alpha = if (l >= 0) 0f else 0f,
+            radius = 30f,
+            center = Offset(size.width / 2f, 30f * 5),
+            style = Stroke(width = 7.dp.toPx())
+        )
+    }
+}
+
 
 @Composable
 fun Timer(modifier: Modifier) {
@@ -385,6 +448,14 @@ fun Pend(modifier: Modifier = Modifier) {
         GAng.add(angle * 1000f)
         GVel.add(aVelocity * 1000f)
         GAcc.add(aAcceleration * 1000f)
+
+
+
+        (5 / GAng.max() * (angle * 1000f)).also{
+            if (!it.isNaN()){
+                level.value = it.roundToInt()
+            }
+        }
 
         frame++
     }
