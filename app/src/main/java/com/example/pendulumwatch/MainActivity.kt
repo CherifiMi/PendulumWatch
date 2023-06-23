@@ -87,8 +87,7 @@ fun App() {
                 Timer(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .aspectRatio(2 / 1f)
-                        .background(Red)
+                        .aspectRatio(2 / 0.8f)
                 )
 
                 Row(
