@@ -78,23 +78,33 @@ fun App() {
                 Row(
                     Modifier
                         .fillMaxWidth()
-                        .height(100.dp),
-                    horizontalArrangement = Arrangement.SpaceEvenly
+                        .height(200.dp),
+                    horizontalArrangement = Arrangement.SpaceEvenly,
+                    verticalAlignment = Alignment.CenterVertically
                 ) {
                     Track(
                         modifier = Modifier
-                            .padding(8.dp)
-                            .fillMaxHeight(),
+                            .padding(16.dp)
+                            .height(100.dp),
                         data = GAcc,
                         txt = "α"
                     )
                     Track(
                         modifier = Modifier
-                            .padding(8.dp)
-                            .fillMaxHeight(),
+                            .padding(16.dp)
+                            .height(100.dp),
                         data = GVel,
                         txt = "ν"
                     )
+                    Box(
+                        Modifier
+                            .padding(8.dp)
+                            .fillMaxHeight()
+                            .width(100.dp)
+                            .background(Red)
+                    ) {
+
+                    }
                 }
 
             }
