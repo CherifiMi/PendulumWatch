@@ -2,24 +2,19 @@ package com.example.pendulumwatch
 
 import android.os.Bundle
 import android.util.Log
-import android.view.MotionEvent
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.animation.EnterTransition
 import androidx.compose.animation.core.*
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.background
+import androidx.compose.foundation.gestures.ModifierLocalScrollableContainerProvider.value
 import androidx.compose.foundation.gestures.detectDragGestures
-import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.progressSemantics
-import androidx.compose.material.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
-import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.scale
 import androidx.compose.ui.geometry.Offset
@@ -29,17 +24,13 @@ import androidx.compose.ui.graphics.PathEffect
 import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.graphics.drawscope.translate
-import androidx.compose.ui.input.pointer.PointerEventType
 import androidx.compose.ui.input.pointer.consumeAllChanges
 import androidx.compose.ui.input.pointer.pointerInput
-import androidx.compose.ui.layout.onSizeChanged
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.pendulumwatch.ui.theme.Blu
 import com.example.pendulumwatch.ui.theme.Grn
 import com.example.pendulumwatch.ui.theme.PendulumWatchTheme
 import com.example.pendulumwatch.ui.theme.Red
-import kotlinx.coroutines.Dispatchers
 import kotlin.math.*
 
 class MainActivity : ComponentActivity() {
@@ -81,7 +72,21 @@ fun App() {
                     .fillMaxSize()
                     .background(Color.Black)
             ) {
-                Text(text = "hillo", color = Red)
+                Row(
+                    Modifier
+                        .fillMaxWidth()
+                        .height(100.dp),
+                    horizontalArrangement = Arrangement.SpaceEvenly
+                ) {
+                    Track(
+                        modifier = Modifier
+                            .padding(8.dp)
+                            .fillMaxHeight(),
+                        data = GAmg
+                    )
+
+                }
+
             }
         }
 
@@ -94,6 +99,32 @@ fun App() {
     }
 
 }
+
+
+@Composable
+fun Track(modifier: Modifier = Modifier, data: MutableList<Float>) {
+
+    var max = 0f
+    var value = 0f
+
+    Canvas(modifier.aspectRatio(1f)) {
+        drawArc(
+            color = Color.Red,
+            startAngle = 120f,
+            sweepAngle = 300f,
+            useCenter = false,
+            style = Stroke(width = 20.dp.toPx(), cap = StrokeCap.Round)
+        )
+        drawArc(
+            color = Color.Blue,
+            startAngle = 120f,
+            sweepAngle = 300f * (value / max),
+            useCenter = false,
+            style = Stroke(width = 20.dp.toPx(), cap = StrokeCap.Round)
+        )
+    }
+}
+
 
 @Composable
 fun Pend(modifier: Modifier = Modifier) {
@@ -181,11 +212,11 @@ fun Pend(modifier: Modifier = Modifier) {
             scaling = 1f
         }
 
-        Log.d("MyData", "angle:$angle  acc:$aAcceleration  vel:$aVelocity")
 
-        GAmg.add(angle)
-        GVel.add(aVelocity)
-        GAcc.add(aAcceleration)
+
+        GAmg.add(angle * 1000f)
+        GVel.add(aVelocity * 1000f)
+        GAcc.add(aAcceleration * 1000f)
 
         frame++
     }
