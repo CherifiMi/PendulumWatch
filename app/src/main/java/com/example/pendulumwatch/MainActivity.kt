@@ -55,6 +55,9 @@ class MainActivity : ComponentActivity() {
 }
 
 val Show = mutableStateOf(false)
+val GAmg = mutableListOf<Float>()
+val GVel = mutableListOf<Float>()
+val GAcc = mutableListOf<Float>()
 
 @Composable
 fun App() {
@@ -179,6 +182,10 @@ fun Pend(modifier: Modifier = Modifier) {
         }
 
         Log.d("MyData", "angle:$angle  acc:$aAcceleration  vel:$aVelocity")
+
+        GAmg.add(angle)
+        GVel.add(aVelocity)
+        GAcc.add(aAcceleration)
 
         frame++
     }
