@@ -148,9 +148,9 @@ fun Graph(data: MutableList<Float>) {
 
     LaunchedEffect(frame) {
 
-        graphData.add(data.last())
+        graphData.add(data.last()*10f)
 
-        if (graphData.size > 100) {
+        if (graphData.size > 1000) {
             graphData.removeAt(0)
         }
 
@@ -160,8 +160,7 @@ fun Graph(data: MutableList<Float>) {
     Canvas(
         modifier = Modifier
             .fillMaxWidth()
-            .aspectRatio(21 / 9f)
-            .background(Blu)
+            .aspectRatio(4 / 2f)
     )
     {
         drawGraph(graphData)
@@ -181,13 +180,13 @@ fun DrawScope.drawGraph(graphData: ArrayList<Float>) {
 
 fun generatePath(graphData: ArrayList<Float>, size: Size): Path {
     val path = Path()
-    val highest = graphData.max()
+    val highest = graphData.max() - graphData.min()
 
-    path.moveTo(0f, size.height)
+    path.moveTo(0f, size.height/2f)
 
     graphData.forEachIndexed { i, d ->
         val x = (i + 1f) * (size.width / graphData.size)
-        val y = size.height - (size.height * ((d * 100f / highest) / 100))
+        val y = size.height/2 - (size.height/2 * ((d * 100f / highest) / 100))
 
         path.lineTo(x, y)
     }
