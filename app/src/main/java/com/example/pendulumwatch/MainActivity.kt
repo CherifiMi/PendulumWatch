@@ -12,9 +12,11 @@ import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.background
 import androidx.compose.foundation.gestures.detectDragGestures
 import androidx.compose.foundation.layout.*
+import androidx.compose.material.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.drawBehind
 import androidx.compose.ui.draw.scale
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Size
@@ -25,7 +27,9 @@ import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.graphics.drawscope.translate
 import androidx.compose.ui.input.pointer.consumeAllChanges
 import androidx.compose.ui.input.pointer.pointerInput
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.example.pendulumwatch.ui.theme.Blu
 import com.example.pendulumwatch.ui.theme.Grn
 import com.example.pendulumwatch.ui.theme.PendulumWatchTheme
@@ -81,13 +85,15 @@ fun App() {
                         modifier = Modifier
                             .padding(8.dp)
                             .fillMaxHeight(),
-                        data = GAcc
+                        data = GAcc,
+                        txt = "α"
                     )
                     Track(
                         modifier = Modifier
                             .padding(8.dp)
                             .fillMaxHeight(),
-                        data = GVel
+                        data = GVel,
+                        txt = "ν"
                     )
                 }
 
@@ -106,7 +112,7 @@ fun App() {
 
 
 @Composable
-fun Track(modifier: Modifier = Modifier, data: MutableList<Float>) {
+fun Track(modifier: Modifier = Modifier, data: MutableList<Float>, txt: String) {
 
     var frame by remember {
         mutableStateOf(0)
@@ -120,30 +126,45 @@ fun Track(modifier: Modifier = Modifier, data: MutableList<Float>) {
     }
 
 
-    LaunchedEffect(frame){
-        max = data.max()-data.min()
+    LaunchedEffect(frame) {
+        max = data.max() - data.min()
         value = data.last().absoluteValue
         frame++
     }
 
 
-    Canvas(modifier.aspectRatio(1f)) {
-        drawArc(
-            color = Grn,
-            alpha = 0.4f,
-            startAngle = 120f,
-            sweepAngle = 300f,
-            useCenter = false,
-            style = Stroke(width = 20.dp.toPx(), cap = StrokeCap.Round)
-        )
-        drawArc(
-            color = Grn,
-            startAngle = 120f,
-            sweepAngle = 300f * (value / max),
-            useCenter = false,
-            style = Stroke(width = 20.dp.toPx(), cap = StrokeCap.Round)
+    Box(
+        contentAlignment = Alignment.Center,
+        modifier = modifier
+            .aspectRatio(1f)
+            .drawBehind {
+                drawArc(
+                    color = Grn,
+                    alpha = 0.4f,
+                    startAngle = 120f,
+                    sweepAngle = 300f,
+                    useCenter = false,
+                    style = Stroke(width = 20.dp.toPx(), cap = StrokeCap.Round)
+                )
+                drawArc(
+                    color = Grn,
+                    startAngle = 120f,
+                    sweepAngle = 300f * (value / max),
+                    useCenter = false,
+                    style = Stroke(width = 20.dp.toPx(), cap = StrokeCap.Round)
+                )
+            }
+
+    ) {
+        Text(
+            text = txt,
+            fontSize = 32.sp,
+            fontWeight = FontWeight(700),
+            color = Blu
         )
     }
+
+
 }
 
 
