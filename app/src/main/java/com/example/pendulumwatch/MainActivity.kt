@@ -75,6 +75,12 @@ fun App() {
                     .fillMaxSize()
                     .background(Color.Black)
             ) {
+                Box(Modifier.fillMaxWidth().aspectRatio(1f).background(Blu)){
+
+                }
+                Row(Modifier.fillMaxWidth().aspectRatio(2/1f).background(Red)){
+
+                }
                 Row(
                     Modifier
                         .fillMaxWidth()
