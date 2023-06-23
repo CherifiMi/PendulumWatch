@@ -1,7 +1,6 @@
 package com.example.pendulumwatch
 
 import android.os.Bundle
-import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.animation.AnimatedVisibility
@@ -34,7 +33,6 @@ import com.example.pendulumwatch.ui.theme.Grn
 import com.example.pendulumwatch.ui.theme.PendulumWatchTheme
 import com.example.pendulumwatch.ui.theme.Red
 import kotlinx.coroutines.delay
-import java.util.*
 import kotlin.collections.ArrayList
 import kotlin.math.*
 
@@ -86,14 +84,13 @@ fun App() {
                 {
                     Graph(data = GAmg)
                 }
-                Row(
-                    Modifier
+                Timer(
+                    modifier = Modifier
                         .fillMaxWidth()
                         .aspectRatio(2 / 1f)
                         .background(Red)
-                ) {
-                    Timer()
-                }
+                )
+
                 Row(
                     Modifier
                         .fillMaxWidth()
@@ -140,7 +137,7 @@ fun App() {
 }
 
 @Composable
-fun Timer() {
+fun Timer(modifier: Modifier) {
     var timer by remember { mutableStateOf(60) }
     LaunchedEffect(key1 = timer) {
         if (timer > 0) {
@@ -149,12 +146,37 @@ fun Timer() {
         }
     }
 
-    Text(
-        text = timer.toString(),
-        fontSize = 80.sp,
-        fontWeight = FontWeight(300),
-        color = Grn
-    )
+    Row(
+        modifier = modifier,
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.Center
+    ) {
+
+        Text(
+            text = "00",
+            fontSize = 80.sp,
+            fontWeight = FontWeight(300),
+            color = Grn
+        )
+        Text(
+            text = "m  ",
+            fontSize = 40.sp,
+            fontWeight = FontWeight(300),
+            color = Blu
+        )
+        Text(
+            text = timer.toString(),
+            fontSize = 80.sp,
+            fontWeight = FontWeight(300),
+            color = Grn
+        )
+        Text(
+            text = "s",
+            fontSize = 40.sp,
+            fontWeight = FontWeight(300),
+            color = Blu
+        )
+    }
 }
 
 @Composable
