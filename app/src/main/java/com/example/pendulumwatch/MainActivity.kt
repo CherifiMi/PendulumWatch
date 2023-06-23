@@ -16,6 +16,7 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.drawBehind
 import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.draw.scale
@@ -124,8 +125,8 @@ fun App() {
                             .width(100.dp),
                         horizontalAlignment = Alignment.CenterHorizontally
                     ) {
-                        Ecc(modifier = Modifier.offset(0.dp, (-200).dp),lev = if (level.value>0) level.value else 0)
-                        Ecc(modifier = Modifier.rotate(180f ), lev = if (level.value<0) level.value else 0)
+                        Ecc(modifier = Modifier.offset(0.dp, (-200).dp).alpha(if (level.value>0) 1f else 0f),lev = if (level.value>0) level.value else 0)
+                        Ecc(modifier = Modifier.rotate(180f ).alpha(if (level.value<0) 1f else 0f), lev = if (level.value<0) level.value else 0)
                     }
                 }
 
