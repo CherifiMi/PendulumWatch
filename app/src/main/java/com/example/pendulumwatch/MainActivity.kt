@@ -48,7 +48,7 @@ class MainActivity : ComponentActivity() {
 }
 
 val Show = mutableStateOf(false)
-val GAmg = mutableListOf<Float>()
+val GAng = mutableListOf<Float>()
 val GVel = mutableListOf<Float>()
 val GAcc = mutableListOf<Float>()
 
@@ -82,7 +82,7 @@ fun App() {
                     contentAlignment = Alignment.Center
                 )
                 {
-                    Graph(data = GAmg)
+                    Graph(data = GAng)
                 }
                 Timer(
                     modifier = Modifier
@@ -382,7 +382,7 @@ fun Pend(modifier: Modifier = Modifier) {
 
 
 
-        GAmg.add(angle * 1000f)
+        GAng.add(angle * 1000f)
         GVel.add(aVelocity * 1000f)
         GAcc.add(aAcceleration * 1000f)
 
