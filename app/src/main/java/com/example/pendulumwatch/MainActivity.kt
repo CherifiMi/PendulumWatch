@@ -20,9 +20,8 @@ import androidx.compose.ui.draw.drawBehind
 import androidx.compose.ui.draw.scale
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Size
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.PathEffect
-import androidx.compose.ui.graphics.StrokeCap
+import androidx.compose.ui.graphics.*
+import androidx.compose.ui.graphics.drawscope.DrawScope
 import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.graphics.drawscope.translate
 import androidx.compose.ui.input.pointer.consumeAllChanges
@@ -75,11 +74,21 @@ fun App() {
                     .fillMaxSize()
                     .background(Color.Black)
             ) {
-                Box(Modifier.fillMaxWidth().aspectRatio(1f).background(Blu)){
-
+                Box(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .aspectRatio(1f),
+                    contentAlignment = Alignment.Center
+                )
+                {
+                    Graph(data = GAmg)
                 }
-                Row(Modifier.fillMaxWidth().aspectRatio(2/1f).background(Red)){
-
+                Row(
+                    Modifier
+                        .fillMaxWidth()
+                        .aspectRatio(2 / 1f)
+                        .background(Red)
+                ) {
                 }
                 Row(
                     Modifier
@@ -124,6 +133,65 @@ fun App() {
         )
     }
 
+}
+
+@Composable
+fun Graph(data: MutableList<Float>) {
+
+    var graphData by remember {
+        mutableStateOf(arrayListOf(0f))
+    }
+
+    var frame by remember {
+        mutableStateOf(0)
+    }
+
+    LaunchedEffect(frame) {
+
+        graphData.add(data.last())
+
+        if (graphData.size > 100) {
+            graphData.removeAt(0)
+        }
+
+        frame++
+    }
+
+    Canvas(
+        modifier = Modifier
+            .fillMaxWidth()
+            .aspectRatio(21 / 9f)
+            .background(Blu)
+    )
+    {
+        drawGraph(graphData)
+    }
+}
+
+
+fun DrawScope.drawGraph(graphData: ArrayList<Float>) {
+    val path = generatePath(graphData, size)
+    val fillPath = Path()
+    drawPath(path, Red, style = Stroke(4.dp.toPx()))
+
+    fillPath.addPath(path)
+    fillPath.lineTo(size.width, size.height)
+
+}
+
+fun generatePath(graphData: ArrayList<Float>, size: Size): Path {
+    val path = Path()
+    val highest = graphData.max()
+
+    path.moveTo(0f, size.height)
+
+    graphData.forEachIndexed { i, d ->
+        val x = (i + 1f) * (size.width / graphData.size)
+        val y = size.height - (size.height * ((d * 100f / highest) / 100))
+
+        path.lineTo(x, y)
+    }
+    return path
 }
 
 
