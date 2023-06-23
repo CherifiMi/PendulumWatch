@@ -245,7 +245,7 @@ fun Timer(modifier: Modifier) {
 fun Graph(data: MutableList<Float>) {
 
     var graphData by remember {
-        mutableStateOf(arrayListOf(-100f))
+        mutableStateOf(arrayListOf(700f))
     }
 
     var frame by remember {
@@ -286,7 +286,7 @@ fun DrawScope.drawGraph(graphData: ArrayList<Float>) {
 
 fun generatePath(graphData: ArrayList<Float>, size: Size): Path {
     val path = Path()
-    val highest = graphData.max() - graphData.min()
+    val highest = 6000//graphData.max() - graphData.min()
 
     path.moveTo(0f, size.height / 2 - (size.height / 2 * ((graphData[0] * 100f / highest) / 100)))
 
