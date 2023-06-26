@@ -32,7 +32,7 @@ fun Pendulum(modifier: Modifier = Modifier, viewModel: PendViewModel) {
 
     val scale by animateFloatAsState(
         targetValue =
-        if (state.isMoving) 1f else .8f
+        if (state.isMoving) 1.3f else 1f
     )
     val translation by animateOffsetAsState(
         targetValue =
@@ -118,7 +118,7 @@ fun Pendulum(modifier: Modifier = Modifier, viewModel: PendViewModel) {
 
 
 
-
+/*
 @Composable
 fun Pend(modifier: Modifier = Modifier) {
 
@@ -283,7 +283,7 @@ fun Pend(modifier: Modifier = Modifier) {
             drawCircle(if (isStuck) Red else Grn, radius = 5 * 8f, center = location)
         }
     }
-}
+}*/
 
 fun nearBall(pressPos: Offset, location: Offset): Boolean {
     val x = abs(pressPos.x - location.x)

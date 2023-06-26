@@ -1,6 +1,5 @@
 package com.example.pendulumwatch
 
-import android.util.Log
 import androidx.compose.ui.geometry.Offset
 import androidx.lifecycle.ViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -26,6 +25,9 @@ data class PendUiState(
     var dumping: Float = 0.997f,
     val r: Float = 800f,
     var spinning: Float = 0f,
+    var gAng: MutableList<Float> = mutableListOf(0f),
+    var gVel: MutableList<Float> = mutableListOf(0f),
+    var gAcc: MutableList<Float> = mutableListOf(0f),
 )
 
 class PendViewModel: ViewModel() {
@@ -61,6 +63,9 @@ class PendViewModel: ViewModel() {
 
                 isMoving = (isStuck && angle != 0f) || (!isStuck && angle == 0f)
 
+                gAng.add(angle)
+                gVel.add(aVelocity)
+                gAcc.add(aAcceleration)
             }
         }
     }

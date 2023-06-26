@@ -1,3 +1,4 @@
+/*
 package com.example.pendulumwatch.components
 
 import androidx.compose.foundation.Canvas
@@ -306,4 +307,4 @@ fun Track(modifier: Modifier = Modifier, data: MutableList<Float>, txt: String) 
     }
 
 
-}
+}*/
