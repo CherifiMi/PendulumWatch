@@ -31,14 +31,11 @@ import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.lifecycleScope
 import com.example.pendulumwatch.ui.theme.Blu
 import com.example.pendulumwatch.ui.theme.Grn
 import com.example.pendulumwatch.ui.theme.PendulumWatchTheme
 import com.example.pendulumwatch.ui.theme.Red
 import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
 import kotlin.math.*
 
 class MainActivity : ComponentActivity() {
@@ -47,10 +44,9 @@ class MainActivity : ComponentActivity() {
 
         val viewModel: PendViewModel by viewModels()
 
-
         setContent {
             PendulumWatchTheme {
-                App()
+                PendScreen(viewModel)
             }
         }
     }
@@ -130,8 +126,12 @@ fun App() {
                             .width(100.dp),
                         horizontalAlignment = Alignment.CenterHorizontally
                     ) {
-                        Ecc(modifier = Modifier.offset(0.dp, (-190).dp).alpha(if (level.value>=0) 1f else 0f),lev = if (level.value>0) level.value else 0)
-                        Ecc(modifier = Modifier.rotate(180f ).alpha(if (level.value<0) 1f else 0f), lev = if (level.value<0) level.value else 0)
+                        Ecc(modifier = Modifier
+                            .offset(0.dp, (-190).dp)
+                            .alpha(if (level.value >= 0) 1f else 0f),lev = if (level.value>0) level.value else 0)
+                        Ecc(modifier = Modifier
+                            .rotate(180f)
+                            .alpha(if (level.value < 0) 1f else 0f), lev = if (level.value<0) level.value else 0)
                     }
                 }
 

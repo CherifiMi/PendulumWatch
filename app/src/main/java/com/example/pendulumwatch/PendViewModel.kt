@@ -21,7 +21,5 @@ class PendViewModel: ViewModel() {
                 isMoving = !it.isMoving
             )
         }
-
-        Log.d("VIEWMODELCHANGE", _uiSate.value.toString())
     }
 }
