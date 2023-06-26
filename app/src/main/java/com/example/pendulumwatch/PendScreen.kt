@@ -42,7 +42,7 @@ fun PendScreen(viewModel: PendViewModel) {
                 animationSpec = tween(durationMillis = 200)
             )
         ) {
-            Statistics(modifite = Modifier,viewModel = viewModel)
+            //Statistics(modifite = Modifier,viewModel = viewModel)
         }
 
         Pendulum(
