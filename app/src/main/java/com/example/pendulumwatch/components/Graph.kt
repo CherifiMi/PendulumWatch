@@ -63,13 +63,13 @@ fun DrawScope.drawGraph(data: MutableList<Float>) {
 }
 
 fun generatePath(data: MutableList<Float>, size: Size): Path {
-    val graphData = data.subList(if (data.size>50)data.size-50 else 0,data.size)
+    val graphData = data.subList(if (data.size>50)data.size-50 else 0,data.size-1)
     val path = Path()
     val highest = data.max() - data.min()
-
+    graphData.add(0f)
     path.moveTo(
         0f,
-        size.height / 2 - (size.height / 2 * ((graphData.filter { it != 0f }[0] * 100f / highest) / 100))
+        size.height / 2 - (size.height / 2 * ((graphData[0] * 100f / highest) / 100))
     )
 
     graphData.forEachIndexed { i, d ->

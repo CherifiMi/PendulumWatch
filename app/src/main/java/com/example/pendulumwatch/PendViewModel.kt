@@ -64,18 +64,10 @@ class PendViewModel: ViewModel() {
 
                 isMoving = (isStuck && angle != 0f) || (!isStuck && angle == 0f)
 
-                if (!isMoving && aVelocity+aAcceleration == 0f){
-                    isMoving = true
-                    gAng = mutableListOf(0f)
-                    gVel = mutableListOf(0f)
-                    gAcc = mutableListOf(0f)
-                }
 
                 gAng.add(angle)
                 gVel.add(aVelocity)
                 gAcc.add(aAcceleration)
-
-                Log.d("STATEPEND", "$isMoving && $aVelocity   $aAcceleration")
             }
         }
     }
