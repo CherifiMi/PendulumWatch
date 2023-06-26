@@ -43,6 +43,15 @@ fun Pendulum(modifier: Modifier = Modifier, viewModel: PendViewModel) {
         if (state.isMoving) Offset(0f, 0f) else Offset(-50f, -50f)
     )
 
+    var frame by remember {
+        mutableStateOf(0)
+    }
+    LaunchedEffect(frame){
+
+        viewModel.updateP()
+
+        frame++
+    }
 
     Box(modifier = modifier
         .fillMaxSize()
@@ -55,7 +64,7 @@ fun Pendulum(modifier: Modifier = Modifier, viewModel: PendViewModel) {
         .clickable { viewModel.change() }
         .background(Red)
     ) {
-        Text(text = state.isMoving.toString())
+        Text(text = state.toString())
     }
 
 }
@@ -64,10 +73,10 @@ fun Pendulum(modifier: Modifier = Modifier, viewModel: PendViewModel) {
 
 
 
-
-
 @Composable
 fun Pend(modifier: Modifier = Modifier) {
+
+
 
     var frame by remember {
         mutableStateOf(0)
