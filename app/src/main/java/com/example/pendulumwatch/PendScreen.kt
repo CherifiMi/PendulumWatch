@@ -39,9 +39,6 @@ fun PendScreen(viewModel: PendViewModel) {
             viewModel = viewModel
         )
     }
-
-
-
 }
 
 

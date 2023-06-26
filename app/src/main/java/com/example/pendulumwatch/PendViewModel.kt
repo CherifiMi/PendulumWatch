@@ -16,16 +16,16 @@ import kotlin.math.sin
 data class PendUiState(
     var isMoving: Boolean = false,
     var isStuck: Boolean = false,
-    val origen: Offset = Offset(0f, 0f),
+    var origen: Offset = Offset(0f, 0f),
     var angle: Float = 0f,
     var aVelocity: Float = 0f,
     var aAcceleration: Float = 0f,
     val gravity: Float = 0.4f,
     var location: Offset = Offset(0f, 0f),
     var pressPos: Offset = Offset(0f, 0f),
-    val dumping: Float = 0.9997f,
+    var dumping: Float = 0.9997f,
     val r: Float = 800f,
-    val spinning: Float = 0f,
+    var spinning: Float = 0f,
 )
 
 class PendViewModel: ViewModel() {
@@ -43,8 +43,6 @@ class PendViewModel: ViewModel() {
 
                 location = Offset(r * sin(angle), r * cos(angle))
                 location = location.plus(origen)
-
-                angle = it.angle+0.1f
 
                 if (isStuck) {
                     aVelocity = 0f
@@ -65,13 +63,20 @@ class PendViewModel: ViewModel() {
 
             }
         }
-        Log.d("STATEPEND", uiState.value.angle.toString())
     }
 
     fun change(){
         _uiSate.update {
             it.copy(
                 isMoving = !it.isMoving
+            )
+        }
+    }
+
+    fun setIsStuck(b: Boolean) {
+        _uiSate.update {
+            it.copy(
+                isStuck = b
             )
         }
     }

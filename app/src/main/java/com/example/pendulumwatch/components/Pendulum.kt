@@ -4,9 +4,7 @@ import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.animateOffsetAsState
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.gestures.detectDragGestures
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material.Text
 import androidx.compose.runtime.*
@@ -19,7 +17,6 @@ import androidx.compose.ui.graphics.PathEffect
 import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.graphics.drawscope.translate
-import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.input.pointer.consumeAllChanges
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.unit.dp
@@ -53,19 +50,81 @@ fun Pendulum(modifier: Modifier = Modifier, viewModel: PendViewModel) {
         frame++
     }
 
-    Box(modifier = modifier
-        .fillMaxSize()
-        .graphicsLayer(
-            scaleX = scale,
-            scaleY = scale,
-            translationX = translation.x,
-            translationY = translation.y
-        )
-        .clickable { viewModel.change() }
-        .background(Red)
-    ) {
-        Text(text = state.toString())
+
+    Canvas(Modifier.fillMaxSize().background(Red)){
+        with(state) {
+            origen = Offset(size.width/2f, 0f)
+            dumping = 6.9696968E7f
+        }
     }
+
+    Text(text = state.toString())
+
+    /*Canvas(
+        modifier
+            .fillMaxSize()
+            .graphicsLayer(
+                scaleX = scale,
+                scaleY = scale,
+                translationX = translation.x,
+                translationY = translation.y
+            )
+            .pointerInput(Unit) {
+                detectDragGestures(
+                    onDragStart = {
+                        viewModel.setIsStuck(nearBall(it, state.location))
+                    },
+                    onDragEnd = { viewModel.setIsStuck(false) },
+                    onDrag = { change, dragAmount ->
+                        change.consumeAllChanges()
+                        viewModel.setPos(pressPos) = change.position
+                    })
+            }
+    ) {
+        state.origen = Offset(size.width/2f, 0f)
+
+
+            if (!state.isMoving) {
+                drawArc(
+                    color = Blu,
+                    startAngle = 50f,
+                    sweepAngle = 40f,
+                    useCenter = false,
+                    size = Size(state.r * 2, state.r * 2),
+                    topLeft = Offset(state.origen.x - state.r, -state.r),
+                    style = Stroke(
+                        width = 4.dp.toPx(),
+                        pathEffect = PathEffect.dashPathEffect(floatArrayOf(15f, 15f), 0f),
+                        cap = StrokeCap.Round
+                    )
+                )
+
+
+                drawArc(
+                    color = Color.White,
+                    alpha = if (state.spining > 90 || spining < 50) 0f else 0.7f,
+                    startAngle = spining,
+                    sweepAngle = 3f,
+                    useCenter = false,
+                    size = Size(r * 2, r * 2),
+                    topLeft = Offset(origen.x - r, -r),
+                    style = Stroke(
+                        width = 4.dp.toPx(),
+                        pathEffect = PathEffect.dashPathEffect(floatArrayOf(15f, 15f), 0f),
+                        cap = StrokeCap.Round
+                    )
+                )
+            }
+
+            drawLine(
+                Grn,
+                start = state.origen,
+                end = state.location,
+                strokeWidth = 2.dp.toPx()
+            )
+            drawCircle(if (state.isStuck) Red else Grn, radius = 5 * 8f, center = state.location)
+        }
+    }*/
 
 }
 
