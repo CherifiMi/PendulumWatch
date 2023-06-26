@@ -29,18 +29,7 @@ fun PendScreen(viewModel: PendViewModel) {
         modifier = Modifier.fillMaxSize(),
         contentAlignment = Alignment.TopCenter
     ) {
-        AnimatedVisibility(
-            visible = state.isMoving,
-            enter = fadeIn(
-                initialAlpha = 0.1f,
-                animationSpec = tween(durationMillis = 500)
-            ),
-            exit = fadeOut(
-                animationSpec = tween(durationMillis = 200)
-            )
-        ) {
-            Statistics(modifier = Modifier.fillMaxSize(),viewModel = viewModel)
-        }
+        Statistics(modifier = Modifier.fillMaxSize(),viewModel = viewModel)
         Pendulum(
             modifier = Modifier
                 .fillMaxWidth()

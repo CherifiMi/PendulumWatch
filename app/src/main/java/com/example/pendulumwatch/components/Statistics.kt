@@ -15,7 +15,6 @@ fun Statistics(modifier: Modifier, viewModel: PendViewModel) {
     val state = viewModel.uiState.collectAsState().value
 
     Column(modifier = modifier) {
-
         Graph(
             modifier = Modifier
                 .fillMaxWidth()
@@ -57,9 +56,7 @@ fun Statistics(modifier: Modifier, viewModel: PendViewModel) {
                     .width(100.dp),
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
-/*
-                AngleMeter(l =  (5/ state.gAng.max() * state.angle).roundToInt())
-*/
+                AngleMeter(l =  (5/ if(state.gAng.size>0) state.gAng.max() else 0f * state.angle).roundToInt())
             }
         }
 
