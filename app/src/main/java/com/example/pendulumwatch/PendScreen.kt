@@ -20,6 +20,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.unit.dp
 import com.example.pendulumwatch.components.Pendulum
+import com.example.pendulumwatch.components.Statistics
 import com.example.pendulumwatch.ui.theme.Red
 
 
@@ -58,65 +59,3 @@ fun PendScreen(viewModel: PendViewModel) {
 
 
 
-@Composable
-fun Statistics(modifite: Modifier.Companion, viewModel: PendViewModel) {
-    Column(
-        Modifier
-            .fillMaxSize()
-            .background(Color.Black)
-    ) {
-        Box(
-            modifier = Modifier
-                .fillMaxWidth()
-                .aspectRatio(1f),
-            contentAlignment = Alignment.Center
-        )
-        {
-            Graph(data = GAng)
-        }
-        Timer(
-            modifier = Modifier
-                .fillMaxWidth()
-                .aspectRatio(2 / 0.8f)
-        )
-
-        Row(
-            Modifier
-                .fillMaxWidth()
-                .height(200.dp),
-            horizontalArrangement = Arrangement.SpaceEvenly,
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-            Track(
-                modifier = Modifier
-                    .padding(16.dp)
-                    .height(100.dp),
-                data = GAcc,
-                txt = "α"
-            )
-            Track(
-                modifier = Modifier
-                    .padding(16.dp)
-                    .height(100.dp),
-                data = GVel,
-                txt = "ν"
-            )
-            Column(
-                Modifier
-                    .padding(8.dp)
-                    .fillMaxHeight()
-                    .offset(0.dp, 200.dp)
-                    .width(100.dp),
-                horizontalAlignment = Alignment.CenterHorizontally
-            ) {
-                Ecc(modifier = Modifier
-                    .offset(0.dp, (-190).dp)
-                    .alpha(if (level.value >= 0) 1f else 0f),lev = if (level.value>0) level.value else 0)
-                Ecc(modifier = Modifier
-                    .rotate(180f)
-                    .alpha(if (level.value < 0) 1f else 0f), lev = if (level.value<0) level.value else 0)
-            }
-        }
-
-    }
-}
