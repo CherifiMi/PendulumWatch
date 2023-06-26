@@ -1,19 +1,14 @@
-/*
 package com.example.pendulumwatch.components
 
 import androidx.compose.foundation.Canvas
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.drawBehind
-import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Size
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Path
 import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.graphics.drawscope.DrawScope
@@ -30,21 +25,17 @@ import kotlin.math.absoluteValue
 
 
 @Composable
-fun Statistics(modifite: Modifier.Companion, viewModel: PendViewModel) {
-    Column(
-        Modifier
-            .fillMaxSize()
-            .background(Color.Black)
-    ) {
-        Box(
+fun Statistics(modifier: Modifier, viewModel: PendViewModel) {
+    val state = viewModel.uiState.collectAsState().value
+
+    Column(modifier = modifier) {
+
+        Graph(
             modifier = Modifier
                 .fillMaxWidth()
                 .aspectRatio(1f),
-            contentAlignment = Alignment.Center
+            data = state.gAng
         )
-        {
-            Graph(data = GAng)
-        }
         Timer(
             modifier = Modifier
                 .fillMaxWidth()
@@ -62,14 +53,14 @@ fun Statistics(modifite: Modifier.Companion, viewModel: PendViewModel) {
                 modifier = Modifier
                     .padding(16.dp)
                     .height(100.dp),
-                data = GAcc,
+                data = state.gAcc,
                 txt = "α"
             )
             Track(
                 modifier = Modifier
                     .padding(16.dp)
                     .height(100.dp),
-                data = GVel,
+                data = state.gVel,
                 txt = "ν"
             )
             Column(
@@ -80,20 +71,23 @@ fun Statistics(modifite: Modifier.Companion, viewModel: PendViewModel) {
                     .width(100.dp),
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
-                Ecc(modifier = Modifier
-                    .offset(0.dp, (-190).dp)
-                    .alpha(if (level.value >= 0) 1f else 0f),lev = if (level.value>0) level.value else 0)
-                Ecc(modifier = Modifier
-                    .rotate(180f)
-                    .alpha(if (level.value < 0) 1f else 0f), lev = if (level.value<0) level.value else 0)
+                /*Ecc(
+                    modifier = Modifier
+                        .offset(0.dp, (-190).dp)
+                        .alpha(if (level.value >= 0) 1f else 0f),
+                    lev = if (level.value > 0) level.value else 0
+                )
+                Ecc(
+                    modifier = Modifier
+                        .rotate(180f)
+                        .alpha(if (level.value < 0) 1f else 0f),
+                    lev = if (level.value < 0) level.value else 0
+                )*/
             }
         }
 
     }
 }
-
-
-
 
 
 @Composable
@@ -195,7 +189,7 @@ fun Timer(modifier: Modifier) {
 }
 
 @Composable
-fun Graph(data: MutableList<Float>) {
+fun Graph(data: MutableList<Float>, modifier: Modifier) {
 
     var graphData by remember {
         mutableStateOf(arrayListOf(700f))
@@ -216,13 +210,18 @@ fun Graph(data: MutableList<Float>) {
         frame++
     }
 
-    Canvas(
-        modifier = Modifier
-            .fillMaxWidth()
-            .aspectRatio(4 / 2f)
+    Box(
+        modifier = modifier,
+        contentAlignment = Alignment.Center
     )
     {
-        drawGraph(graphData)
+        Canvas(
+            modifier = Modifier
+                .fillMaxWidth()
+                .aspectRatio(4 / 2f)
+        ) {
+            drawGraph(graphData)
+        }
     }
 }
 
@@ -241,7 +240,10 @@ fun generatePath(graphData: ArrayList<Float>, size: Size): Path {
     val path = Path()
     val highest = 6000//graphData.max() - graphData.min()
 
-    path.moveTo(0f, size.height / 2 - (size.height / 2 * ((graphData.filter { it!= 0f }[0] * 100f / highest) / 100)))
+    path.moveTo(
+        0f,
+        size.height / 2 - (size.height / 2 * ((graphData.filter { it != 0f }[0] * 100f / highest) / 100))
+    )
 
     graphData.forEachIndexed { i, d ->
         val x = (i + 1f) * (size.width / graphData.size)
@@ -307,4 +309,4 @@ fun Track(modifier: Modifier = Modifier, data: MutableList<Float>, txt: String) 
     }
 
 
-}*/
+}

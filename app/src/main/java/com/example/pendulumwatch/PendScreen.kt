@@ -10,6 +10,7 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import com.example.pendulumwatch.components.Pendulum
+import com.example.pendulumwatch.components.Statistics
 
 
 @Composable
@@ -30,7 +31,7 @@ fun PendScreen(viewModel: PendViewModel) {
                 animationSpec = tween(durationMillis = 200)
             )
         ) {
-            //Statistics(modifite = Modifier,viewModel = viewModel)
+            Statistics(modifier = Modifier.fillMaxSize(),viewModel = viewModel)
         }
         Pendulum(
             modifier = Modifier
