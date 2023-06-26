@@ -1,35 +1,52 @@
 package com.example.pendulumwatch
 
-import android.util.Log
 import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
-import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.*
-import androidx.compose.material.Text
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.aspectRatio
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
-import com.example.pendulumwatch.components.Graph
 import com.example.pendulumwatch.components.Pendulum
 import com.example.pendulumwatch.components.Statistics
-import com.example.pendulumwatch.ui.theme.Blu
-import com.example.pendulumwatch.ui.theme.Red
 
 
 @Composable
 fun PendScreen(viewModel: PendViewModel) {
-    val state = viewModel.uiState.collectAsState().value
 
+    var frame by remember {
+        mutableStateOf(0)
+    }
+    var v by remember {
+        mutableStateOf(false)
+    }
+
+
+    LaunchedEffect(frame) {
+        v = !viewModel.uiState.value.isMoving
+        frame++
+    }
 
     Box(
         modifier = Modifier.fillMaxSize(),
         contentAlignment = Alignment.TopCenter
     ) {
-        Statistics(modifier = Modifier.fillMaxSize(),viewModel = viewModel)
+        AnimatedVisibility(
+            visible = v,
+            enter = fadeIn(
+                initialAlpha = 0.1f,
+                animationSpec = tween(durationMillis = 500)
+            ),
+            exit = fadeOut(
+                animationSpec = tween(durationMillis = 200)
+            )
+        ) {
+            Statistics(modifier = Modifier.fillMaxSize(), viewModel = viewModel)
+        }
         Pendulum(
             modifier = Modifier
                 .fillMaxWidth()

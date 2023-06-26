@@ -11,7 +11,7 @@ import kotlin.math.*
 
 
 data class PendUiState(
-    var isMoving: Boolean = false,
+    var isMoving: Boolean = true,
     var isStuck: Boolean = false,
     var origen: Offset = Offset(0f, 0f),
     var angle: Float = 0f,

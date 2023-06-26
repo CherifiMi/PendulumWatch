@@ -39,6 +39,7 @@ fun DrawScope.drawGraph(data: MutableList<Float>) {
 
     fillPath.addPath(path)
     fillPath.lineTo(size.width, size.height)
+
 }
 
 fun generatePath(data: MutableList<Float>, size: Size): Path {
