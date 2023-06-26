@@ -7,7 +7,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.example.pendulumwatch.PendViewModel
-import kotlin.math.roundToInt
 
 
 @Composable
@@ -56,7 +55,7 @@ fun Statistics(modifier: Modifier, viewModel: PendViewModel) {
                     .width(100.dp),
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
-                AngleMeter(l =  (5/ if(state.gAng.size>0) state.gAng.max() else 0f * state.angle).roundToInt())
+                AngleMeter(level = state.gAng)
             }
         }
 

@@ -1,5 +1,6 @@
 package com.example.pendulumwatch.components
 
+import android.util.Log
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.layout.Column
 import androidx.compose.runtime.Composable
@@ -10,10 +11,12 @@ import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.unit.dp
 import com.example.pendulumwatch.ui.theme.Red
+import kotlin.math.roundToInt
 
 
 @Composable
-fun AngleMeter(modifier: Modifier = Modifier, l: Int) {
+fun AngleMeter(modifier: Modifier = Modifier, level: MutableList<Float>) {
+    val l = (5/ if(level.size>0) level.max() else 0f * level.last()).roundToInt()
 
     Column(modifier) {
         Canvas(Modifier.alpha(if (l>1) 1f else 0f)) {
