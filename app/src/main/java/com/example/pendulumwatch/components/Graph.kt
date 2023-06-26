@@ -40,8 +40,7 @@ fun Graph(data: MutableList<Float>, modifier: Modifier) {
     Box(
         modifier = modifier,
         contentAlignment = Alignment.Center
-    )
-    {
+    ){
         Canvas(
             modifier = Modifier
                 .fillMaxWidth()

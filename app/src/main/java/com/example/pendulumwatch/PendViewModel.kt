@@ -14,7 +14,7 @@ import kotlin.math.sin
 
 
 data class PendUiState(
-    var isMoving: Boolean = false,
+    var isMoving: Boolean = true,
     var isStuck: Boolean = false,
     var origen: Offset = Offset(0f, 0f),
     var angle: Float = 0f,
@@ -65,7 +65,7 @@ class PendViewModel: ViewModel() {
                 isMoving = (isStuck && angle != 0f) || (!isStuck && angle == 0f)
 
                 if (!isMoving && aVelocity+aAcceleration == 0f){
-                    isMoving = false
+                    isMoving = true
                     gAng = mutableListOf(0f)
                     gVel = mutableListOf(0f)
                     gAcc = mutableListOf(0f)
@@ -75,7 +75,7 @@ class PendViewModel: ViewModel() {
                 gVel.add(aVelocity)
                 gAcc.add(aAcceleration)
 
-                Log.d("STATEPEND", "$isMoving && ${aVelocity + aAcceleration}")
+                Log.d("STATEPEND", "$isMoving && $aVelocity   $aAcceleration")
             }
         }
     }

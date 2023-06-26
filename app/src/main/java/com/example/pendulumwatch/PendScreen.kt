@@ -4,6 +4,7 @@ import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.Text
 import androidx.compose.runtime.*
@@ -11,11 +12,14 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import com.example.pendulumwatch.components.Pendulum
 import com.example.pendulumwatch.components.Statistics
+import com.example.pendulumwatch.ui.theme.Blu
+import com.example.pendulumwatch.ui.theme.Red
 
 
 @Composable
 fun PendScreen(viewModel: PendViewModel) {
     val state = viewModel.uiState.collectAsState().value
+
 
     Box(
         modifier = Modifier.fillMaxSize(),
@@ -31,6 +35,7 @@ fun PendScreen(viewModel: PendViewModel) {
                 animationSpec = tween(durationMillis = 200)
             )
         ) {
+
             Statistics(modifier = Modifier.fillMaxSize(),viewModel = viewModel)
         }
         Pendulum(
