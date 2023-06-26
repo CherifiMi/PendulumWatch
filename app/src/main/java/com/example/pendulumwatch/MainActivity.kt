@@ -289,7 +289,7 @@ fun generatePath(graphData: ArrayList<Float>, size: Size): Path {
     val path = Path()
     val highest = 6000//graphData.max() - graphData.min()
 
-    path.moveTo(0f, size.height / 2 - (size.height / 2 * ((graphData[0] * 100f / highest) / 100)))
+    path.moveTo(0f, size.height / 2 - (size.height / 2 * ((graphData.filter { it!= 0f }[0] * 100f / highest) / 100)))
 
     graphData.forEachIndexed { i, d ->
         val x = (i + 1f) * (size.width / graphData.size)
