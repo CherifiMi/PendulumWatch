@@ -23,7 +23,7 @@ data class PendUiState(
     val gravity: Float = 0.4f,
     var location: Offset = Offset(0f, 0f),
     var pressPos: Offset = Offset(0f, 0f),
-    var dumping: Float = 0.9997f,
+    var dumping: Float = 0.997f,
     val r: Float = 800f,
     var spinning: Float = 0f,
 )
@@ -62,22 +62,6 @@ class PendViewModel: ViewModel() {
                 isMoving = (isStuck && angle != 0f) || (!isStuck && angle == 0f)
 
             }
-        }
-    }
-
-    fun change(){
-        _uiSate.update {
-            it.copy(
-                isMoving = !it.isMoving
-            )
-        }
-    }
-
-    fun setIsStuck(b: Boolean) {
-        _uiSate.update {
-            it.copy(
-                isStuck = b
-            )
         }
     }
 }
