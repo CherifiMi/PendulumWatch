@@ -17,26 +17,6 @@ import com.example.pendulumwatch.ui.theme.Red
 
 @Composable
 fun Graph(data: MutableList<Float>, modifier: Modifier) {
-
-    /*var graphData by remember {
-        mutableStateOf(arrayListOf(700f))
-    }
-
-    var frame by remember {
-        mutableStateOf(0)
-    }
-
-    LaunchedEffect(frame) {
-
-        graphData.add(data.last() * 10f)
-
-        if (graphData.size > 500) {
-            graphData.removeAt(0)
-        }
-
-        frame++
-    }
-*/
     Box(
         modifier = modifier,
         contentAlignment = Alignment.Center
@@ -59,7 +39,6 @@ fun DrawScope.drawGraph(data: MutableList<Float>) {
 
     fillPath.addPath(path)
     fillPath.lineTo(size.width, size.height)
-
 }
 
 fun generatePath(data: MutableList<Float>, size: Size): Path {

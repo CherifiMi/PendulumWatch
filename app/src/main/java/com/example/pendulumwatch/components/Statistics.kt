@@ -55,7 +55,7 @@ fun Statistics(modifier: Modifier, viewModel: PendViewModel) {
                     .width(100.dp),
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
-                AngleMeter(level = state.gAng)
+                AngleMeter(gAng = state.gAng)
             }
         }
 

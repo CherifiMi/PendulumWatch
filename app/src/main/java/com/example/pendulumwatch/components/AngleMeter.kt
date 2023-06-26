@@ -2,24 +2,50 @@ package com.example.pendulumwatch.components
 
 import android.util.Log
 import androidx.compose.foundation.Canvas
-import androidx.compose.foundation.layout.Column
-import androidx.compose.runtime.Composable
+import androidx.compose.foundation.layout.*
+import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.drawscope.Stroke
+import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.unit.dp
 import com.example.pendulumwatch.ui.theme.Red
+import kotlin.math.absoluteValue
 import kotlin.math.roundToInt
 
 
 @Composable
-fun AngleMeter(modifier: Modifier = Modifier, level: MutableList<Float>) {
-    val l = (5/ if(level.size>0) level.max() else 0f * level.last()).roundToInt()
+fun AngleMeter(modifier: Modifier = Modifier, gAng: MutableList<Float>) {
+    var frame by remember {
+        mutableStateOf(0)
+    }
 
-    Column(modifier) {
-        Canvas(Modifier.alpha(if (l>1) 1f else 0f)) {
+    var l by remember {
+        mutableStateOf(0)
+    }
+
+    LaunchedEffect(frame) {
+
+        l = (5/  gAng.max() * gAng.last()).let {x->
+            if (!x.isNaN()){
+                x.roundToInt().absoluteValue
+            }else{
+                0
+            }
+        }
+
+        frame++
+    }
+
+
+
+    Column(modifier.offset(y = -180.dp)) {
+        Canvas(
+            Modifier
+                .alpha(if (gAng.last() > 0) 1f else 0f)
+                .weight(1f, true)) {
             drawCircle(
                 Red,
                 alpha = 1f,
@@ -63,7 +89,11 @@ fun AngleMeter(modifier: Modifier = Modifier, level: MutableList<Float>) {
                 style = Stroke(width = 7.dp.toPx())
             )
         }
-        Canvas(Modifier.alpha(if (l<1) 1f else 0f).rotate(180f)) {
+        Canvas(
+            Modifier
+                .alpha(if (gAng.last() <= 0) 1f else 0f)
+                .weight(1f, true)
+                .rotate(180f)) {
             drawCircle(
                 Red,
                 alpha = 1f,
