@@ -10,6 +10,7 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import com.example.pendulumwatch.components.Pendulum
 import com.example.pendulumwatch.components.Statistics
 import com.example.pendulumwatch.ui.theme.Blu
@@ -26,7 +27,7 @@ fun PendScreen(viewModel: PendViewModel) {
         contentAlignment = Alignment.TopCenter
     ) {
         AnimatedVisibility(
-            visible = state.isMoving,
+            visible = !state.isMoving,
             enter = fadeIn(
                 initialAlpha = 0.1f,
                 animationSpec = tween(durationMillis = 500)
@@ -36,7 +37,7 @@ fun PendScreen(viewModel: PendViewModel) {
             )
         ) {
 
-            Statistics(modifier = Modifier.fillMaxSize(),viewModel = viewModel)
+            //Statistics(modifier = Modifier.fillMaxSize(),viewModel = viewModel)
         }
         Pendulum(
             modifier = Modifier
