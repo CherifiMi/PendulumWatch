@@ -6,3 +6,4 @@ Pendulum real physics simulation using Canvas and Jetpack compose Animation
 
 
 <img src="/vid.gif" width="360">
+<img src="/vid2.gif" width="360">
